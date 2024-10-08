@@ -1,0 +1,27 @@
+package controller;
+
+import java.io.IOException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+// contoller를 만드는 방법을 순서대로 확인해보자
+// Step 1 : HttpServlet 클래스를 상속
+// Step 2 : overriding 실시 ( doGet(), doPost() )
+
+
+public class cont1 extends HttpServlet{
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+	}
+	
+}
