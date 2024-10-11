@@ -1,0 +1,18 @@
+package dto;
+
+import java.io.Serializable;
+
+public class Book implements Serializable{
+	private static final long serialVersionUID = -4274700572038677000L;
+	
+	private String bookId;
+	private String name;
+	private int unitPrice;
+	private String author;
+	private String description;
+	private String publisher;
+	private String category;
+	private long unitsInStock;
+	private String releaseDate;
+	private String condition;
+}
