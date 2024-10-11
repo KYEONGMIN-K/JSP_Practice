@@ -2,6 +2,11 @@ package dto;
 
 import java.io.Serializable;
 
+/*
+ * Book class 정의
+ * 변수 10개, 함수 : 생성자 2개 , get()/set() 20개 
+ * 
+ */
 public class Book implements Serializable{
 	private static final long serialVersionUID = -4274700572038677000L;
 	
