@@ -1,17 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="dto.Book" %>    
+<%@ page import="dto.Book" %>
+<%@ page import="dao.BookRepository" %>        
 <%
 	//get은 return이 반드시 있다. return을 받을 변수를 준비해야한다.
 	//request에 set()으로 넣을때는 데이터 타입이 unknown으로 바뀌게 됨. 그래서 casting을 해줘야한다
-	ArrayList<Book> listOfBooks = (ArrayList<Book>)request.getAttribute("arry");
+	BookRepository dao = BookRepository.getRepository();
+	ArrayList<Book> listOfBooks = dao.getAllBooks();
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
 <meta charset="UTF-8">
 <title>도서목록</title>
 </head>
@@ -37,6 +39,7 @@
 			%>
 				<div class="col-md-4">
 					<div class="h-100 p-2">
+						<img src="./resources/images/<%= book.getFilename() %>" style="width:250; height:350">
 						<h5><b><%= book.getName() %></b></h5>
 						<p><%=book.getAuthor() %></p>
 						<br><%= book.getPublisher() %> : <%= book.getUnitPrice() %>원
