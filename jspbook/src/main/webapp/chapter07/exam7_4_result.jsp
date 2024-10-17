@@ -9,8 +9,8 @@
 </head>
 <body>
 	<%
-		String name = (String)request.getAttribute("name");
-		String value = (String)request.getAttribute("value");
+		String name[] = (String[])request.getAttribute("name");
+		String value[] = (String[])request.getAttribute("value");
 		
 		String filefieldname = (String)request.getAttribute("fileFieldName");
 		String filename = (String)request.getAttribute("fileName");
@@ -18,8 +18,9 @@
 		long file = (long)request.getAttribute("fileSize");
 	%>
 	<%
-		out.println(name +" = "+ value + "<br>");	
-
+	for(int i=0; i<name.length; i++){
+		out.println(name[i] +" = "+ value[i] + "<br>");	
+	}
 		out.println("--------------------------------<br>");
 		
 		out.println("요청 파라미터 이름 : " + filefieldname + "<br>");

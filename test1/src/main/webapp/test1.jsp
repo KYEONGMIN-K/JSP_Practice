@@ -9,5 +9,12 @@
 <body>	
 	안녕하세요
 	<h1>안녕하세요</h1>
+	<%!
+		int a=1;
+		int c=0;
+		String b;
+		
+		public void funcA(int a, int b){};
+	%>
 </body>
 </html>

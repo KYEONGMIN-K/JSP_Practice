@@ -1,0 +1,4 @@
+bundle 경로 에러 오류
+jakarta.el.ELException: Cannot convert [???title???] of type [class java.lang.String] to [class jakarta.servlet.jsp.jstl.fmt.LocalizationContext]
+
+경로 재설정으로 해결

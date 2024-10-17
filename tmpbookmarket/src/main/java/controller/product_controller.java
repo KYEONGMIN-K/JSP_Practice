@@ -17,29 +17,23 @@ public class product_controller extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		
+
 		//Verify Step 1 : 콘솔을 찍어서 잘 매핑이 되는지 확인
 		System.out.println("/product 매핑됨");
 		//전처리
 		// 데이터를 잡아 저장하는 것.
-		String id = req.getParameter("id");
-		
-		
+		req.setCharacterEncoding("utf-8");
+		String language = req.getParameter("language");	
+		System.out.println(language);
 		//모델
 		BookRepository br = BookRepository.getRepository();
 		ArrayList<Book> arr = BookRepository.getAllBooks();
 		
 		//이동
-		// 데이터 보낼때        키  , 값
-		if(id.equals("b")) {
+		// 데이터 보낼때           키  , 값
 			req.setAttribute("arry", arr);
 			RequestDispatcher ds = req.getRequestDispatcher("books.jsp");
 			ds.forward(req, resp);
-		}else if(id.equals("a")){
-			req.setAttribute("arry", arr);
-			RequestDispatcher ds = req.getRequestDispatcher("addBook.jsp");
-			ds.forward(req, resp);
-		}
 		
 	}
 

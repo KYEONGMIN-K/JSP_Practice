@@ -48,20 +48,21 @@ public class exam07_4_controller extends HttpServlet{
 		}
 		
 		
-		String name=new String();
-		String value=new String();
+		String name[]=new String[2];
+		String value[]=new String[2];
 		String fileFieldName=new String();
 		String fileName=new String();
 		String contentType=new String();
 		long fileSize=0;
 		File file;
+		int i=0;
 		
 		while(params.hasNext()) {
 			FileItem item = (FileItem)params.next();
 			
 			if(item.isFormField()) {
-				name = item.getFieldName();
-				value = item.getString("utf-8");
+				name[i] = item.getFieldName();
+				value[i] = item.getString("utf-8");
 			}else {
 				fileFieldName = item.getFieldName();
 				fileName = item.getName();
@@ -78,7 +79,7 @@ public class exam07_4_controller extends HttpServlet{
 					e.printStackTrace();
 				}
 			}
-			
+			i++;
 		}
 		//텍스트
 		req.setAttribute("name", name);

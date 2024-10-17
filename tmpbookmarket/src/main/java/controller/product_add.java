@@ -43,8 +43,11 @@ public class product_add extends HttpServlet{
 		String condition = multi.getParameter("condition");
 		String fileName = multi.getFilesystemName("BookImage");
 		
-		Integer Price=0;
 		
+		
+		//유효성 검사
+		Integer Price=0;
+
 		if(unitPrice.isEmpty())
 				Price =0;
 		else
@@ -76,7 +79,7 @@ public class product_add extends HttpServlet{
 		newBook.setFilename(fileName);
 		dao.addBook(newBook);
 		
-		resp.sendRedirect("books.jsp");
+		resp.sendRedirect("products?id=b");
 	}
 	
 }

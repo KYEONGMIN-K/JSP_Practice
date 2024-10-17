@@ -7,6 +7,6 @@
         			<span class="fs-4">Home</span>
 			</a>
 			<!-- href 경로 제일 앞에 / 를 붙이게 되면 절대경로로 지정하겠다는 것. -->
-			<a href="products?id=b" class="d-flex align-items-center text-dark text-decoration-none fs-4">All Products</a>
-			<a href="products?id=a" class="d-flex align-items-center text-dark text-decoration-none fs-4"> Product Add</a>
+			<a href="products" class="d-flex align-items-center text-dark text-decoration-none fs-4">All Products</a>
+			<a href="productsadd" class="d-flex align-items-center text-dark text-decoration-none fs-4"> Product Add</a>
 		</header>
