@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="dao.BookRepository" %>
 <%@ page import="dto.Book" %>
-  
+<%@ page errorPage="exceptionNoBookId.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>

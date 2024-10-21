@@ -1,5 +1,0 @@
-package chapter05;
-
-public class exam05_1 extends HttpServlet{
-
-}
