@@ -42,7 +42,7 @@
 					<p><b>재고 수</b> : <%=book.getUnitsInStock() %></p>
 					<h4><%=book.getUnitPrice() %>원</h4>
 					<p><a href="#" class="btn btn-info">도서주문 &raquo;</a></p>
-					<a href="./products?id=b">도서 목록 &raquo;</a>
+					<a href="./products">도서 목록 &raquo;</a>
 			</div>
 		</div>
 		<%@ include file="footer.jsp"%>

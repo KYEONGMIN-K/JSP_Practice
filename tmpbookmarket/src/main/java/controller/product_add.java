@@ -79,7 +79,7 @@ public class product_add extends HttpServlet{
 		newBook.setFilename(fileName);
 		dao.addBook(newBook);
 		
-		resp.sendRedirect("products?id=b");
+		resp.sendRedirect("products");
 	}
 	
 }
