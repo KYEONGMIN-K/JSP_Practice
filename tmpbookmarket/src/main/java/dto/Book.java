@@ -10,18 +10,21 @@ import java.io.Serializable;
 public class Book implements Serializable{
 	private static final long serialVersionUID = -4274700572038677000L;
 	
-	private String bookId;
-	private String name;
-	private int unitPrice;
-	private String author;
-	private String description;
-	private String publisher;
-	private String category;
-	private long unitsInStock;
-	private String releaseDate;
-	private String condition;
-	private String filename;
+	private String bookId;			//책 번호 (고유값)
+	private String name;			//책 이름
+	private int unitPrice;			//책 가격
+	private String author;			//저자
+	private String description;		//설명
+	private String publisher;		//출판사
+	private String category;		//분류
+	private long unitsInStock;		//재고 수
+	private String releaseDate;		//출판일
+	private String condition;		//상태 (새도서, 중고도서, E-Book)
+	private String filename;		//책 이미지파일
+	private int quantity;			//구매하려는 책 개수
 	
+	//======= 함수 ========
+	//생성자
 	public Book() {
 		super();
 	}
@@ -30,6 +33,9 @@ public class Book implements Serializable{
 		this.name = name;
 		this.unitPrice = unitPrice;
 	}
+	
+	//모든 변수들에 대한 get,set 함수들 
+	// private 멤버에 대한 접근은 직접적으로 이루어져서는 안된다. 모든 것은 함수를 통해.
 	public String getBookId() {
 		return bookId;
 	}
@@ -95,5 +101,11 @@ public class Book implements Serializable{
 	}
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

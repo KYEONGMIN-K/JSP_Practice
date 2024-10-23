@@ -13,6 +13,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 
 public class LogFileFilter implements Filter{
+	
 	PrintWriter writer;
 	@Override
 	public void destroy() {

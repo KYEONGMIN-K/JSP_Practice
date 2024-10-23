@@ -45,7 +45,7 @@
 						<br><%= book.getPublisher() %> : <%= book.getUnitPrice() %>원
 						<p><%=book.getDescription() %></p>
 						<p><%=book.getUnitPrice() %>원</p>
-						<p><a href="productinfo?id=<%=book.getBookId()%>" class="btn-secondary" role="button">상세 정보 &raquo;</a></p>
+						<p><a href="productinfo?id=<%=book.getBookId()%>" class="btn btn-secondary" role="button">상세 정보 &raquo;</a></p>
 					</div>
 				</div>
 			<%

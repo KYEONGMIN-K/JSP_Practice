@@ -41,11 +41,15 @@
 					<p><b>분류</b> : <%=book.getCategory() %></p>
 					<p><b>재고 수</b> : <%=book.getUnitsInStock() %></p>
 					<h4><%=book.getUnitPrice() %>원</h4>
-					<p><a href="#" class="btn btn-info">도서주문 &raquo;</a></p>
-					<a href="./products">도서 목록 &raquo;</a>
+					<form name="addForm" action="#">
+						<p><a href="product_addCart?id=<%= book.getBookId()%>" class="btn btn-info" onclick="addToCart()">도서주문 &raquo;</a></p>
+						<a href="product_cartview" class="btn btn-warning">장바구니 &raquo;</a>
+						<a href="products" class="btn btn-warning">도서 목록 &raquo;</a>
+					</form>
 			</div>
 		</div>
 		<%@ include file="footer.jsp"%>
 	</div>
+	<script src="./resources/js/validation.js"></script>
 </body>
 </html>

@@ -63,3 +63,12 @@ function CheckAddBook(){
 	
 	document.newBook.submit();
 }
+
+function addToCart(){
+	if(confirm("도서를 장바구니에 추가 하시겠습니까?")){
+		document.addForm.submit();
+	}else{
+		document.addForm.reset();
+	}
+	
+}
