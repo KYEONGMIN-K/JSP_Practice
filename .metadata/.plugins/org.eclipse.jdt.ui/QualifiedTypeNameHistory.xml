@@ -5,5 +5,7 @@
     <fullyQualifiedTypeName name="jakarta.servlet.http.HttpServletRequest"/>
     <fullyQualifiedTypeName name="dao.BookRepository"/>
     <fullyQualifiedTypeName name="dto.Book"/>
+    <fullyQualifiedTypeName name="dao.member_repository"/>
     <fullyQualifiedTypeName name="jakarta.servlet.RequestDispatcher"/>
+    <fullyQualifiedTypeName name="dto.member_dto"/>
 </qualifiedTypeNameHistroy>
