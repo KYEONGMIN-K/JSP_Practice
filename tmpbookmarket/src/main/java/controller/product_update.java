@@ -2,6 +2,9 @@ package controller;
 
 import java.io.IOException;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import dao.BookRepository;
 import dto.Book;
 import jakarta.servlet.ServletException;
@@ -9,27 +12,24 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import com.oreilly.servlet.*;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
-@WebServlet("/product_add")
-public class product_add extends HttpServlet{
+@WebServlet("/product_update")
+public class product_update extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+		
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//전처리
+		req.setCharacterEncoding("utf-8");
 		String save = req.getServletContext().getRealPath("resources\\images");
-		String realFolder=save;
-		int maxSize=5*1024*1024;
-		String encType="utf-8";
-
-		//전처리 : 파라미터 수신
-		MultipartRequest multi = new MultipartRequest(req, realFolder, maxSize, encType, new DefaultFileRenamePolicy());
+		String realFolder = save;
+		int maxSize = 5*1024*1024;
+		String encType = "utf-8";
+		
+		MultipartRequest multi = new MultipartRequest(req, realFolder, maxSize, encType, new DefaultFileRenamePolicy());		
 		
 		String bookId = multi.getParameter("bookId");
 		String name = multi.getParameter("name");
@@ -43,9 +43,6 @@ public class product_add extends HttpServlet{
 		String condition = multi.getParameter("condition");
 		String fileName = multi.getFilesystemName("BookImage");
 		
-		System.out.println(bookId+"/"+fileName);
-		System.out.println("파라미터 수신 완료.");
-		//유효성 검사
 		Integer Price=0;
 
 		if(unitPrice.isEmpty())
@@ -59,8 +56,7 @@ public class product_add extends HttpServlet{
 			Price =0;
 		else
 			stock = Long.valueOf(unitsInStock);
-
-		//데이터 묶기
+		
 		Book newBook = new Book();
 		newBook.setBookId(bookId);
 		newBook.setName(name);
@@ -72,14 +68,12 @@ public class product_add extends HttpServlet{
 		newBook.setCategory(category);
 		newBook.setUnitsInStock(stock);
 		newBook.setCondition(condition);
-		newBook.setFilename(fileName);		
-
-		//모델
+		newBook.setFilename(fileName);
+		//모델이동
 		BookRepository br = BookRepository.getRepository();
-		br.addBook(newBook);
-
-		//이동
+		br.updateBook(newBook);
+		//뷰이동
 		resp.sendRedirect("products");
 	}
-	
+
 }

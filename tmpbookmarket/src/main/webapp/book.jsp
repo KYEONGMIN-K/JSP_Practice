@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ page import="dao.BookRepository" %>
 <%@ page import="dto.Book" %>
-<%@ page errorPage="exceptionNoBookId.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +10,9 @@
 <title>도서 정보</title>
 </head>
 <body>
-
+	<%
+		Book book = (Book)request.getAttribute("book");
+	%>
 	<div class="container py-4">
 		<%@ include file="menu.jsp" %>
 		
@@ -21,12 +22,6 @@
 				<p class="col-md-8 fs-4">BookInfo</p>
 			</div>
 		</div>
-		
-		<%
-			String id = request.getParameter("id");
-			BookRepository bookRepo = (BookRepository)request.getAttribute("bookrepo");
-			Book book = bookRepo.getBookById(id);
-		%>
 		<div class="row align-item-md-stretch">
 				<div class="col-md-5">
 					<img src="./resources/images/<%=book.getFilename() %>" style="width:70%">

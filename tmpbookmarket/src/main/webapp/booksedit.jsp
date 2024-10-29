@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="dto.Book" %>       
+<%@ page import="dto.Book" %>    
 <%
 	//get은 return이 반드시 있다. return을 받을 변수를 준비해야한다.
 	//request에 set()으로 넣을때는 데이터 타입이 unknown으로 바뀌게 됨. 그래서 casting을 해줘야한다
@@ -25,8 +25,8 @@
 		
 		<div class="p-5 mb-4 bg-body-tertiary rounded-3">
 			<div class="container-fluid py-5">
-				<h1 class="display-5 fw-bold">도서목록</h1>
-				<p class="col-md-8 fs-4">BookList</p>
+				<h1 class="display-5 fw-bold">도서편집</h1>
+				<p class="col-md-8 fs-4">BookEditing</p>
 			</div>
 		</div>
 		
@@ -43,10 +43,11 @@
 						<img src="./resources/images/<%= book.getFilename() %>" style="width:250; height:350">
 						<h5><b><%= book.getName() %></b></h5>
 						<p><%=book.getAuthor() %></p>
-						<br><%= book.getPublisher() %> | <%= book.getReleaseDate() %>
+						<br><%= book.getPublisher() %> : <%= book.getUnitPrice() %>원
 						<p><%=book.getDescription() %></p>
 						<p><%=book.getUnitPrice() %>원</p>
-						<p><a href="productinfo?id=<%=book.getBookId()%>" class="btn btn-secondary" role="button">상세 정보 &raquo;</a></p>
+						<p><a href="productsedit_s?id=<%=book.getBookId()%>" class="btn btn-secondary" role="button">수정 &raquo;</a></p>
+						<p><a href="productsdelete?id=<%=book.getBookId()%>" class="btn btn-secondary" role="button">삭제 &raquo;</a></p>
 					</div>
 				</div>
 			<%

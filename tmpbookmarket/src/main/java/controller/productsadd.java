@@ -11,23 +11,22 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-@WebServlet("/productinfo")
-public class product_info extends HttpServlet{
+@WebServlet("/productsadd")
+public class productsadd extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("연결!");
 		//전처리
-		String bookid = req.getParameter("id");
-		
-
+		req.setCharacterEncoding("utf-8");
+		String language = req.getParameter("language");
 		//모델
 		BookRepository br = BookRepository.getRepository();
-		Book book = br.readOneBook(bookid);
+//		ArrayList<Book> arr = BookRepository.getAllBooks();
+		
 		//이동
-		req.setAttribute("book", book);
-		RequestDispatcher ds = req.getRequestDispatcher("book.jsp");
+//		req.setAttribute("arry", arr);
+		req.setAttribute("language", language);
+		RequestDispatcher ds = req.getRequestDispatcher("addBook.jsp");
 		ds.forward(req, resp);
 	}
 

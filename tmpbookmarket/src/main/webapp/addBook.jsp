@@ -10,8 +10,10 @@
 
 </head>
 <body>
+<!-- 
 <fmt:setLocale value='<%=request.getAttribute("language") %>'/>
 <fmt:bundle basename="bundle.message">
+ -->
 	<!-- 제일 바깥 div -->
 	<div class="container py-4">
 		<%@ include file = "menu.jsp" %>
@@ -98,13 +100,17 @@
 				</div>
 				<div class="mb-3 row">
 					<div class="col-sm-offset-2 col-sm-10">
-						<input type="button" class="btn btn-primary" value=" <fmt:message key="button"/>" id="addsubmit">
+						<input type="submit" class="btn btn-primary" value="등록" id="addsubmit">
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-	<script type="text/javascript" src="./resources/js/validation.js"></script>
-</fmt:bundle>
+	
+<!-- 
+<script type="text/javascript" src="./resources/js/validation.js"></script>
+</fmt:bundle> 
+<fmt:message key="button"/>
+-->
 </body>
 </html>

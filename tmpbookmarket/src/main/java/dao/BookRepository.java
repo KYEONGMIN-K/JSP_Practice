@@ -1,5 +1,9 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import dto.Book;
 
@@ -8,69 +12,264 @@ import dto.Book;
  * 
  */
 
+/*
+ * 10.29 DB 연결식으로 변경
+ * 1. DB Connect 함수 생성 : dbconn()
+ * 2. 
+ * 
+ * 
+ */ 
 public class BookRepository {
 	//저장소 변수
-	private static ArrayList<Book> listOfBooks = new ArrayList<Book>();
+	//싱글턴 형식으로 생성
 	private static BookRepository repository = new BookRepository();	
-	// static으로 만들었지만 private로 선언했기때문에 아래 public 함수들도 사용할 수 없다. 
 	
-	public BookRepository() {
-		System.out.println("책 저장소 생성자 호출");
-		Book book1 = new Book("ISBN1234", "C# 프로그래밍", 27000);
-		book1.setAuthor("우재남");
-		book1.setDescription("C#을 처음 접하는 독자를 대상으로 일대일 수업처럼 자세히 설명한 책이다. 꼭 알아야 할 핵심 개념은 기본 예제로 최대한 쉽게 설명했으며, 중요한 내용은 응용 예제, 퀴즈, 셀프 스터디, 예제 모음으로 한번 더 복습할 수 있다.");
-		book1.setPublisher("한빛아카데미");
-		book1.setCategory("IT모바일");
-		book1.setUnitsInStock(1000);
-		book1.setReleaseDate("2022/10/06");
-		book1.setFilename("ISBN1234.jpg");
-		
-		Book book2 = new Book("ISBN1235", "자바마스터", 30000);
-		book2.setAuthor("송미영");
-		book2.setDescription("자바를 처음 배우는 학생을 위해 자바의 기본 개념과 실습 예제를 그림을 이용하여 쉽게 설명합니다. 자바의 이론적 개념->기본 예제->프로젝트 순으로 단계별 학습이 가능하며, 각 챕터의 프로젝트를 실습하면서 온라인 서접을 완성할 수 있도록 구성하였습니다.");
-		book2.setPublisher("한빛아카데미");
-		book2.setCategory("IT모바일");
-		book2.setUnitsInStock(1000);
-		book2.setReleaseDate("2023/01/01");
-		book2.setFilename("ISBN1235.jpg");
-		
-		Book book3 = new Book("ISBN1236", "파이썬 프로그래밍", 30000);
-		book3.setAuthor("최성철");
-		book3.setDescription("파이썬으로 프로그래밍을 시작하는 입문자가 쉽게 이해할 수 있도록 기본 개념을 상세하게 설명하며, 다양한 예제를 제시합니다. 또한 프로그래밍의 기초 원리를 이해하면서 파이썬으로 데이터를 처리하는 기법도 배웁니다.");
-		book3.setPublisher("한빛아카데미");
-		book3.setCategory("IT모바일");
-		book3.setUnitsInStock(1000);
-		book3.setReleaseDate("2023/01/01");
-		book3.setFilename("ISBN1236.jpg");
-		
-		listOfBooks.add(book1);
-		listOfBooks.add(book2);
-		listOfBooks.add(book3);
+	private BookRepository() {};
+	
+	/*
+	 * Function Name : dbconn()
+	 * Parameter : none
+	 * Return Type : Connection 
+	 * DB에 연결하는 작업(드라이버)을 하는 함수 
+	 */
+	private Connection dbconn() {
+		Connection conn = null;
+		//연결 시 반드시 DB가 생성되어 있는지, WEB-INF/lib에 .jar가 있는지 확인 
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String url = "jdbc:mysql://localhost:3306/bookmarketdb";
+			String id = "root";
+			String pw = "1234";
+			conn = DriverManager.getConnection(url,id,pw);	
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return conn;
 	}
-
-	public static ArrayList<Book> getAllBooks(){
-		return listOfBooks;
-	}
+	
+	/*
+	 * Function Name : getRepository()
+	 * Parameter : none
+	 * Return Type : BookRepository
+	 * 싱글턴으로 생성되어 있는 BookRepository 객체의 주소를 반환하는 함수
+	 */
 	public static BookRepository getRepository() {
 		return repository;
 	}
 	
-	public Book getBookById(String bookId) {
-		Book bookById = null;
-		
-		for(int i=0; i<listOfBooks.size(); i++) {
-			Book book = listOfBooks.get(i);
-			if(book != null && book.getBookId()!=null && book.getBookId().equals(bookId)) {
-				bookById = book;
-				break;
+	/*
+	 * Function Name : readAllbook()
+	 * Parameter : none
+	 * Return Type : ArrayList<Book>
+	 * DB에 저장된 책 전체를 읽어와 ArrayList<Book> 객체에 담아 주소를 반환하는 함수
+	 */
+	public ArrayList<Book> readAllbook(){
+		//반환할 변수 준비
+		ArrayList<Book> arr = new ArrayList<Book>();
+		try {
+			//DB 생성
+			Connection conn = dbconn();
+			//SQL 작성 준비 : PreparedStatement 객체 생성
+			PreparedStatement pstmt = null;
+			String sql = "select * from book";
+			pstmt = conn.prepareStatement(sql); //PreparedStatement 객체 생성, 파라미터 : sql
+			
+			//SQL문 DB로 전달 , return : ResultSet 객체
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				// 테이블 전체를 가져와 저장해야하고 row 하나 당 dto 하나가 매핑된다.
+				// 변수 > dto > ArrayList<Book>
+				
+				//== 선생님은 변수에 담아서 해당 변수를 set()의 파라미터로 전달.
+				//== DTO의 변수이름, Repository 변수이름, Database 컬럼 이름 
+				//== 위 3가지를 다 같이 쓰는 것이 편하다.
+				//== DB 에서 Description, Condition은 이미 있는 명령어. 따라서 이름을 같게하면 안된다.
+				Book book = new Book();
+				book.setBookId(rs.getString("b_id")); 
+				book.setAuthor(rs.getString("b_author"));
+				book.setCategory(rs.getString("b_category"));
+				book.setCondition(rs.getString("b_condition"));
+				book.setDescription(rs.getString("b_description"));
+				book.setName(rs.getString("b_name"));
+				book.setPublisher(rs.getString("b_publisher"));
+				book.setUnitPrice(rs.getInt("b_unitPrice"));
+				book.setUnitsInStock(rs.getLong("b_unitsInStock"));
+				book.setReleaseDate(rs.getString("b_releaseDate"));
+				book.setFilename(rs.getString("b_fileName"));
+				
+				arr.add(book);
 			}
+			//왜 .equals()를 사용하지 않고 비교 연산자를 사용할까?
+			/*
+			 * String 클래스는 우리가 편하게 = "문자열";로 넣어도 일반적인 데이터 타입처럼 사용할 수 있게 해주는데
+			 * 이걸 잘 생각해보면, .은 객체의 멤버 메소드를 사용하겠다는 것인데 주소값 자체가 없는 NULL상태라면
+			 * 접근 자체가 NullPointerException을 일으킬 수 있기 때문에 비교연산자를 사용하여 
+			 * 참조변수 자체가 NULL인지 아닌지를 비교하는 것이 맞다.
+			 * 10.29 BookMarket 작성 중 궁금증으로 찾아봄.
+			 */
+			if(rs != null)
+				rs.close();
+			if(pstmt != null)
+				pstmt.close();
+			if(conn != null)
+				conn.close();
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 		
-		return bookById;
+		return arr;
+	}
+
+	/*
+	 * Function Name : readOneBook()
+	 * Parameter : String id
+	 * Return Type : Book
+	 * 선택된 책 하나만 DB로부터 가져와 DTO(Book)로 반환하는 함수
+	 * SQL 작성 시 옵션으로 함수의 파라미터로 넘어온 ID를 가지고 찾는다.
+	 */
+	public Book readOneBook(String id) {
+		Book book = null;
+		try {
+			Connection conn = dbconn();
+			PreparedStatement pstmt = null;
+			String sql ="select * from book where b_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				book = new Book();
+				book.setBookId(rs.getString("b_id")); 
+				book.setAuthor(rs.getString("b_author"));
+				book.setCategory(rs.getString("b_category"));
+				book.setCondition(rs.getString("b_condition"));
+				book.setDescription(rs.getString("b_description"));
+				book.setName(rs.getString("b_name"));
+				book.setPublisher(rs.getString("b_publisher"));
+				book.setUnitPrice(rs.getInt("b_unitPrice"));
+				book.setUnitsInStock(rs.getLong("b_unitsInStock"));
+				book.setReleaseDate(rs.getString("b_releaseDate"));
+				book.setFilename(rs.getString("b_fileName"));				
+			}
+			if(rs != null)
+				rs.close();
+			if(pstmt != null)
+				pstmt.close();
+			if(conn != null)
+				conn.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return book;
 	}
 	
+	
+	/*
+	 * Function Name : addBook()
+	 * Parameter : Book book
+	 * Return Type : void
+	 * 새로운 책을 DB로 저장하는 함수
+	 * 저장 시 DB에 생성된 필드의 순서에 맞게 넣어야한다.
+	 */
 	public void addBook(Book book) {
-		listOfBooks.add(book);
+		try {
+			Connection conn = dbconn();
+			PreparedStatement pstmt = null;
+			String sql = "insert into book values(?,?,?,?,?,?,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, book.getBookId());
+			pstmt.setString(2, book.getName());
+			pstmt.setInt(3, book.getUnitPrice());
+			pstmt.setString(4, book.getAuthor());
+			pstmt.setString(5, book.getDescription());
+			pstmt.setString(6, book.getPublisher());
+			pstmt.setString(7, book.getCategory());
+			pstmt.setLong(8, book.getUnitsInStock());
+			pstmt.setString(9, book.getReleaseDate());
+			pstmt.setString(10, book.getCondition());
+			pstmt.setString(11, book.getFilename());
+			// execute 자꾸 까먹지마라
+			pstmt.executeUpdate();
+			
+			if(pstmt != null)
+				pstmt.close();
+			if(conn != null)
+				conn.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	/*
+	 * Function Name : updateBook()
+	 * Parameter : Book book
+	 * Return Type : void
+	 * 새로운 책을 DB로 저장하는 함수
+	 * 저장 시 DB에 생성된 필드의 순서에 맞게 넣어야한다.
+	 */
+	public void updateBook(Book book) {
+		try {
+			Connection conn = dbconn();
+			PreparedStatement pstmt = null;
+			if(book.getFilename() != null) {	//file이 있을 때
+				String sql = "update book set b_name=?, b_unitPrice=?, b_author=?, b_description=?, b_publisher=?, b_category=?, b_unitsInStock=?, b_releaseDate=?, b_condition=?, b_fileName=? where b_id=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, book.getName());
+				pstmt.setInt(2, book.getUnitPrice());
+				pstmt.setString(3, book.getAuthor());
+				pstmt.setString(4, book.getDescription());
+				pstmt.setString(5, book.getPublisher());
+				pstmt.setString(6, book.getCategory());
+				pstmt.setLong(7, book.getUnitsInStock());
+				pstmt.setString(8, book.getReleaseDate());
+				pstmt.setString(9, book.getCondition());
+				pstmt.setString(10, book.getFilename());
+				pstmt.setString(11, book.getBookId());
+				pstmt.executeUpdate();
+			}else { //file이 없을 때
+				String sql = "update book set b_name=?, b_unitPrice=?, b_author=?, b_description=?, b_publisher=?, b_category=?, b_unitsInStock=?, b_releaseDate=?, b_condition=? where b_id=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, book.getName());
+				pstmt.setInt(2, book.getUnitPrice());
+				pstmt.setString(3, book.getAuthor());
+				pstmt.setString(4, book.getDescription());
+				pstmt.setString(5, book.getPublisher());
+				pstmt.setString(6, book.getCategory());
+				pstmt.setLong(7, book.getUnitsInStock());
+				pstmt.setString(8, book.getReleaseDate());
+				pstmt.setString(9, book.getCondition());
+				pstmt.setString(10, book.getBookId());
+				pstmt.executeUpdate();
+			}
+			if(pstmt != null)
+				pstmt.close();
+			if(conn != null)
+				conn.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/*
+	 * Function Name : deleteBook()
+	 * Parameter : String id
+	 * Return Type : void
+	 * 선택한 책을 DB에서 삭제하는 함수
+	 * 삭제 시 필요한 ID를 파라미터로 받아 SQL의 옵션으로 넣어 삭제한다.
+	 */
+	public void deleteBook(String id) {
+		try {
+			Connection conn = dbconn();
+			PreparedStatement pstmt = null;
+			String sql = "delete from book where b_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

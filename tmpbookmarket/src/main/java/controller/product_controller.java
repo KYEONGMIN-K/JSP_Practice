@@ -19,22 +19,22 @@ public class product_controller extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		//Verify Step 1 : 콘솔을 찍어서 잘 매핑이 되는지 확인
-		System.out.println("/product 매핑됨");
+		System.out.println(logTime.timeReturn.getTime()+"/products 매핑됨");
 		//전처리
 		// 데이터를 잡아 저장하는 것.
 		req.setCharacterEncoding("utf-8");
-		String language = req.getParameter("language");	
-		System.out.println(language);
+//		String language = req.getParameter("language");	
+		
 		//모델
 		BookRepository br = BookRepository.getRepository();
-		ArrayList<Book> arr = BookRepository.getAllBooks();
+		ArrayList<Book> arr = br.readAllbook(); 	//반환 받음
+		System.out.println("readAllbook() 실행 완료");
 		
 		//이동
-		// 데이터 보낼때           키  , 값
-			req.setAttribute("arry", arr);
-			RequestDispatcher ds = req.getRequestDispatcher("books.jsp");
-			ds.forward(req, resp);
-		
+		// 데이터 보낼때        키  , 값
+		req.setAttribute("arr", arr);
+		RequestDispatcher ds = req.getRequestDispatcher("books.jsp");
+		ds.forward(req, resp);	
 	}
 
 	@Override

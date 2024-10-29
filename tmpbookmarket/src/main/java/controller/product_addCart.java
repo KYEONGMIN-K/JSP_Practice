@@ -30,14 +30,14 @@ public class product_addCart extends HttpServlet{
 		//dao 생성
 		BookRepository dao = BookRepository.getRepository();
 		//id값으로 dao 내 특정 book 가져오기 
-		Book book = dao.getBookById(id);
+//		Book book = dao.getBookById(id);
 		//제대로 가져왔는지 유효성검사
-		if(book == null) {
-			resp.sendRedirect("exceptionNoBookId.jsp");
-		}
+//		if(book == null) {
+//			resp.sendRedirect("exceptionNoBookId.jsp");
+//		}
 		System.out.println("addcart 모델 유휴성 통과");
 		//제대로 가져왔다면 전체 book 가져오기
-		ArrayList<Book> goodsList = dao.getAllBooks();
+		ArrayList<Book> goodsList = dao.readAllbook();
 		//원본 데이터 조작방지를 위해 복사본 생성
 		Book goods = new Book();
 		for(int i=0; i<goodsList.size(); i++) {

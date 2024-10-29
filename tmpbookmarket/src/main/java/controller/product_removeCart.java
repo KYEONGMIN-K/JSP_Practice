@@ -26,10 +26,10 @@ public class product_removeCart extends HttpServlet{
 	//모델
 		BookRepository dao = BookRepository.getRepository();
 		
-		Book book = dao.getBookById(id);
-		if(book == null) {
-			resp.sendRedirect("exceptionNoBookId.jsp");
-		}
+//		Book book = dao.getBookById(id);
+//		if(book == null) {
+//			resp.sendRedirect("exceptionNoBookId.jsp");
+//		}
 		
 		ArrayList<Book> cartList = (ArrayList<Book>) session.getAttribute("cartlist");
 		Book goodsQnt = new Book();
