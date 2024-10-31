@@ -20,7 +20,7 @@ public class productsadd extends HttpServlet{
 		req.setCharacterEncoding("utf-8");
 		String language = req.getParameter("language");
 		//모델
-		BookRepository br = BookRepository.getRepository();
+//		BookRepository br = BookRepository.getRepository();
 //		ArrayList<Book> arr = BookRepository.getAllBooks();
 		
 		//이동

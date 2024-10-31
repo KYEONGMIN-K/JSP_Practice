@@ -1,5 +1,6 @@
 package controller;
 
+import logTime.*;
 import java.io.IOException;
 
 import dao.BookRepository;
@@ -13,7 +14,7 @@ import com.oreilly.servlet.*;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @WebServlet("/product_add")
-public class product_add extends HttpServlet{
+public class product_create extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,6 +23,7 @@ public class product_add extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println(timeReturn.getTime()+" #p_create.1 product_add 매핑됨");
 		//전처리
 		String save = req.getServletContext().getRealPath("resources\\images");
 		String realFolder=save;
@@ -30,36 +32,40 @@ public class product_add extends HttpServlet{
 
 		//전처리 : 파라미터 수신
 		MultipartRequest multi = new MultipartRequest(req, realFolder, maxSize, encType, new DefaultFileRenamePolicy());
-		
+		System.out.println(timeReturn.getTime()+" #p_create.2 MultiP 생성");
 		String bookId = multi.getParameter("bookId");
 		String name = multi.getParameter("name");
-		String unitPrice = multi.getParameter("unitPrice");
 		String author = multi.getParameter("author");
 		String publisher = multi.getParameter("publisher");
 		String releaseDate = multi.getParameter("releaseDate");
 		String description = multi.getParameter("description");
 		String category = multi.getParameter("category");
-		String unitsInStock = multi.getParameter("unitsInStock");
 		String condition = multi.getParameter("condition");
+		//정수로 처리되어야 하는 데이터
+		String unitPrice = multi.getParameter("unitPrice");
+		String unitsInStock = multi.getParameter("unitsInStock");
+		//저장된 이미지의 이름을 변수에 저장
 		String fileName = multi.getFilesystemName("BookImage");
 		
-		System.out.println(bookId+"/"+fileName);
-		System.out.println("파라미터 수신 완료.");
+//		System.out.println(bookId+"/"+fileName);
+		System.out.println(timeReturn.getTime()+" #p_create.3 MultiP Param get Succ");
 		//유효성 검사
-		Integer Price=0;
-
-		if(unitPrice.isEmpty())
+		int Price=0;
+		//unitPrice이 null일 수 있기 때문에 검사
+		if(unitPrice.isEmpty()) {
 				Price =0;
-		else
+		}else{//null이 아니면 String을 int로 바꿔 넣기.
 			Price = Integer.valueOf(unitPrice);
-		
+		}
 		long stock=0;
-		
-		if(unitsInStock.isEmpty())
+		//unitPrice이 null일 수 있기 때문에 검사
+		if(unitsInStock.isEmpty()) {
 			Price =0;
-		else
+		}else{//null이 아니면 String을 int로 바꿔 넣기.
 			stock = Long.valueOf(unitsInStock);
-
+		}
+		
+		
 		//데이터 묶기
 		Book newBook = new Book();
 		newBook.setBookId(bookId);
@@ -73,12 +79,13 @@ public class product_add extends HttpServlet{
 		newBook.setUnitsInStock(stock);
 		newBook.setCondition(condition);
 		newBook.setFilename(fileName);		
-
-		//모델
+		
+		System.out.println(timeReturn.getTime()+" #p_create.3 DTO set Succ");
+		//모델이동
 		BookRepository br = BookRepository.getRepository();
 		br.addBook(newBook);
-
-		//이동
+		
+		//뷰이동
 		resp.sendRedirect("products");
 	}
 	

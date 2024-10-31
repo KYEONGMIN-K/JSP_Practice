@@ -1,3 +1,4 @@
+<%@page import="logTime.timeReturn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
@@ -6,9 +7,11 @@
 	//get은 return이 반드시 있다. return을 받을 변수를 준비해야한다.
 	//request에 set()으로 넣을때는 데이터 타입이 unknown으로 바뀌게 됨. 그래서 casting을 해줘야한다
 	//BookRepository dao = BookRepository.getRepository();
-	
+	System.out.println(timeReturn.getTime() +" #v_all books.jsp View 이동 완료");
 	ArrayList<Book> listOfBooks = (ArrayList<Book>)request.getAttribute("arr");
-		
+	if(listOfBooks == null){
+		System.out.println(timeReturn.getTime() +"#v_all ArrayList<Book> null");
+	}
 %>
 
 <!DOCTYPE html>

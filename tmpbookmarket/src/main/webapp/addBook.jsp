@@ -1,19 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+	System.out.println(logTime.timeReturn.getTime() +"#v_all addbook.jsp View 이동 완료");
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+
+<!-- 리소스(이미지,CSS,JS) 경로는 절대경로 -->
+<link rel="stylesheet" href="/tmpbookmarket/resources/css/bootstrap.min.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
 </head>
 <body>
-<!-- 
+
 <fmt:setLocale value='<%=request.getAttribute("language") %>'/>
 <fmt:bundle basename="bundle.message">
- -->
+
 	<!-- 제일 바깥 div -->
 	<div class="container py-4">
 		<%@ include file = "menu.jsp" %>
@@ -100,17 +105,17 @@
 				</div>
 				<div class="mb-3 row">
 					<div class="col-sm-offset-2 col-sm-10">
-						<input type="submit" class="btn btn-primary" value="등록" id="addsubmit">
+						<input type="button" class="btn btn-primary" value="등록" id="addsubmit" <fmt:message key="button"/> onclick="CheckAddBook()">
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
 	
-<!-- 
-<script type="text/javascript" src="./resources/js/validation.js"></script>
+
+<script type="text/javascript" src="/tmpbookmarket/resources/js/validation.js"></script>
 </fmt:bundle> 
-<fmt:message key="button"/>
--->
+
+
 </body>
 </html>

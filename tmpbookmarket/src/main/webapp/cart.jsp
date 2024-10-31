@@ -58,7 +58,7 @@
 				%>
 				<!-- 반복문 내 -->
 				<tr>
-					<td><%=book.getBookId() %> -<%=book.getName() %>> </td>
+					<td><%=book.getBookId() %> - <%=book.getName() %> </td>
 					<td><%=book.getUnitPrice() %></td>
 					<td><%=book.getQuantity() %></td>
 					<td><%=total %></td>

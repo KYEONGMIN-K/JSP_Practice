@@ -8,10 +8,22 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
 <title>도서 정보</title>
+<script type="text/javascript">
+	function addToCart(){
+		if(confirm("도서를 장바구니에 추가하시겠습니까?")){
+			document.addForm.submin();
+		}else{
+			document.addForm.reset();
+		}
+	}
+</script>
 </head>
 <body>
 	<%
+		System.out.println(logTime.timeReturn.getTime() +" #v_all book.jsp View 이동 완료");
+	
 		Book book = (Book)request.getAttribute("book");
+		
 	%>
 	<div class="container py-4">
 		<%@ include file="menu.jsp" %>

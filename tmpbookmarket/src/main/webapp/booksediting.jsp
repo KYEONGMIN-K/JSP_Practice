@@ -12,13 +12,15 @@
 </head>
 <body>
 <%
+	System.out.println(logTime.timeReturn.getTime() +" #v_editing booksediting.jsp View 이동 완료");
 	Book book = (Book)request.getAttribute("book");
 %>
 
-<!-- 
+ <!--
 <fmt:setLocale value='<%=request.getAttribute("language") %>'/>
+-->
 <fmt:bundle basename="bundle.message">
- -->
+ 
 	<!-- 제일 바깥 div -->
 	<div class="container py-4">
 		<%@ include file = "menu.jsp" %>
@@ -39,7 +41,7 @@
 					<div class="mb-3 row">
 						<label class="col-sm-2"><fmt:message key="bookId"/></label>
 						<div class="col-sm-5">
-							<input type="text" name="bookId" class="form-control" id="bookId" value="<%= book.getBookId()%>">
+							<input type="text" name="bookId" class="form-control" id="bookId" value="<%= book.getBookId()%>" readonly>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -93,9 +95,12 @@
 					<div class="mb-3 row">
 						<label class="col-sm-2"><fmt:message key="condition"/></label>
 						<div class="col-sm-8">
-							<input type="radio" name="condition" value="New"> <fmt:message key="condition_New"/>
-							<input type="radio" name="condition" value="Old"> <fmt:message key="condition_Old"/>
-							<input type="radio" name="condition" value="EBook"> <fmt:message key="condition_Ebook"/>
+							<% String status = book.getCondition();%> 
+							
+							<input type="radio" name="condition" value="new" <%if(status.equals("new")){out.println("checked");} %>> <fmt:message key="condition_New"/>
+							<input type="radio" name="condition" value="old" <%if(status.equals("old")){out.println("checked");} %>> <fmt:message key="condition_Old"/>
+							<input type="radio" name="condition" value="eBook" <%if(status.equals("eBook")){out.println("checked");} %>> <fmt:message key="condition_Ebook"/>
+							
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -106,7 +111,7 @@
 					</div>
 					<div class="mb-3 row">
 						<div class="col-sm-offset-2 col-sm-10">
-							<input type="submit" class="btn btn-primary" value="수정" id="addsubmit">
+							<input type="button" class="btn btn-primary" value="수정" id="addsubmit" <fmt:message key="button"/>>
 						</div>
 					</div>
 				</form>
@@ -114,10 +119,10 @@
 		</div>
 	</div>
 	
-<!-- 
-<script type="text/javascript" src="./resources/js/validation.js"></script>
+
+<script type="text/javascript" src="/tmpbookmarket/resources/js/validation.js"></script>
 </fmt:bundle> 
-<fmt:message key="button"/>
--->
+
+
 </body>
 </html>

@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import logTime.timeReturn;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,12 +36,13 @@ public class BookRepository {
 	private Connection dbconn() {
 		Connection conn = null;
 		//연결 시 반드시 DB가 생성되어 있는지, WEB-INF/lib에 .jar가 있는지 확인 
+		System.out.println(timeReturn.getTime()+" #rp_Conn dbconn in");
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/bookmarketdb";
 			String id = "root";
 			String pw = "1234";
-			conn = DriverManager.getConnection(url,id,pw);	
+			conn = DriverManager.getConnection(url,id,pw);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -54,6 +56,7 @@ public class BookRepository {
 	 * 싱글턴으로 생성되어 있는 BookRepository 객체의 주소를 반환하는 함수
 	 */
 	public static BookRepository getRepository() {
+		System.out.println(timeReturn.getTime()+" #rp_get getRepository in");
 		return repository;
 	}
 	
@@ -64,11 +67,16 @@ public class BookRepository {
 	 * DB에 저장된 책 전체를 읽어와 ArrayList<Book> 객체에 담아 주소를 반환하는 함수
 	 */
 	public ArrayList<Book> readAllbook(){
+		System.out.println(timeReturn.getTime()+" #rp_all.1 readAllbook in");
 		//반환할 변수 준비
 		ArrayList<Book> arr = new ArrayList<Book>();
 		try {
 			//DB 생성
 			Connection conn = dbconn();
+			if(conn == null) {
+				System.out.println(timeReturn.getTime()+" #rp_all dbconn Fail");
+			}
+			System.out.println(timeReturn.getTime()+" #rp_all.2 dbconn Succ");
 			//SQL 작성 준비 : PreparedStatement 객체 생성
 			PreparedStatement pstmt = null;
 			String sql = "select * from book";
@@ -76,6 +84,10 @@ public class BookRepository {
 			
 			//SQL문 DB로 전달 , return : ResultSet 객체
 			ResultSet rs = pstmt.executeQuery();
+			if(rs == null) {
+				System.out.println(timeReturn.getTime()+" #rp_all ResultSet Fail");
+			}
+			System.out.println(timeReturn.getTime()+" #rp_all.3 ResultSet Succ");
 			while(rs.next()) {
 				// 테이블 전체를 가져와 저장해야하고 row 하나 당 dto 하나가 매핑된다.
 				// 변수 > dto > ArrayList<Book>
@@ -121,21 +133,31 @@ public class BookRepository {
 	}
 
 	/*
-	 * Function Name : readOneBook()
+	 * Function Name : readOneBook() == (구)getBookById()
 	 * Parameter : String id
 	 * Return Type : Book
 	 * 선택된 책 하나만 DB로부터 가져와 DTO(Book)로 반환하는 함수
 	 * SQL 작성 시 옵션으로 함수의 파라미터로 넘어온 ID를 가지고 찾는다.
 	 */
 	public Book readOneBook(String id) {
+		System.out.println(timeReturn.getTime()+" #rp_one.1 readOneBook in");
 		Book book = null;
 		try {
 			Connection conn = dbconn();
+			if(conn == null) {
+				System.out.println(timeReturn.getTime()+" #rp_one dbconn Fail");
+			}
+			System.out.println(timeReturn.getTime()+" #rp_one.2 dbconn Succ");
+			
 			PreparedStatement pstmt = null;
 			String sql ="select * from book where b_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
+			if(rs == null) {
+				System.out.println(timeReturn.getTime()+" #rp_all ResultSet Fail");
+			}
+			System.out.println(timeReturn.getTime()+" #rp_all.3 ResultSet Succ");
 			if(rs.next()) {
 				book = new Book();
 				book.setBookId(rs.getString("b_id")); 
@@ -172,9 +194,16 @@ public class BookRepository {
 	 */
 	public void addBook(Book book) {
 		try {
+			System.out.println(timeReturn.getTime()+" #rp_add.1 addBook in");
 			Connection conn = dbconn();
+			if(conn == null) {
+				System.out.println(timeReturn.getTime()+" #rp_add dbconn Fail");
+			}
+			System.out.println(timeReturn.getTime()+" #rp_add.2 dbconn Succ");
 			PreparedStatement pstmt = null;
+			
 			String sql = "insert into book values(?,?,?,?,?,?,?,?,?,?,?)";
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, book.getBookId());
 			pstmt.setString(2, book.getName());
@@ -189,7 +218,7 @@ public class BookRepository {
 			pstmt.setString(11, book.getFilename());
 			// execute 자꾸 까먹지마라
 			pstmt.executeUpdate();
-			
+			System.out.println(timeReturn.getTime()+" #rp_add.3 executeUpdate");
 			if(pstmt != null)
 				pstmt.close();
 			if(conn != null)
@@ -209,8 +238,13 @@ public class BookRepository {
 	 * 저장 시 DB에 생성된 필드의 순서에 맞게 넣어야한다.
 	 */
 	public void updateBook(Book book) {
+		System.out.println(timeReturn.getTime()+" #rp_update.1 updateBook in");
 		try {
 			Connection conn = dbconn();
+			if(conn == null) {
+				System.out.println(timeReturn.getTime()+" #rp_update dbconn Fail");
+			}
+			System.out.println(timeReturn.getTime()+" #rp_update.2 dbconn Succ");
 			PreparedStatement pstmt = null;
 			if(book.getFilename() != null) {	//file이 있을 때
 				String sql = "update book set b_name=?, b_unitPrice=?, b_author=?, b_description=?, b_publisher=?, b_category=?, b_unitsInStock=?, b_releaseDate=?, b_condition=?, b_fileName=? where b_id=?";
@@ -242,6 +276,7 @@ public class BookRepository {
 				pstmt.setString(10, book.getBookId());
 				pstmt.executeUpdate();
 			}
+			System.out.println(timeReturn.getTime()+" #rp_update.3 executeUpdate Succ");
 			if(pstmt != null)
 				pstmt.close();
 			if(conn != null)
@@ -260,13 +295,19 @@ public class BookRepository {
 	 * 삭제 시 필요한 ID를 파라미터로 받아 SQL의 옵션으로 넣어 삭제한다.
 	 */
 	public void deleteBook(String id) {
+		System.out.println(timeReturn.getTime()+" #rp_delete.1 deleteBook in");
 		try {
 			Connection conn = dbconn();
+			if(conn == null) {
+				System.out.println(timeReturn.getTime()+" #rp_delete dbconn Fail");
+			}
+			System.out.println(timeReturn.getTime()+" #rp_delete.2 dbconn Succ");
 			PreparedStatement pstmt = null;
 			String sql = "delete from book where b_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.executeUpdate();
+			System.out.println(timeReturn.getTime()+" #rp_update.3 executeUpdate Succ");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

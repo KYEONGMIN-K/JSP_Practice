@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="/tmpbookmarket/resources/css/bootstrap.min.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -29,13 +29,13 @@
 						out.println("<div>");
 					}
 				%>
-				<form class="form-signin class="form-control" action="j_security_check" method="post">
+				<form class="form-signin class="form-control" action="member_login" method="post">
 					<div class="form-floating md-3 row">
-						<input type="text" class="form-control" name='j_username'>
+						<input type="text" class="form-control" name="id">
 						<label for="floatingInput">ID</label>
 					</div>
 					<div class="form-floating mb-3 row">
-						<input type="password" class="form-control" name='j_password'>
+						<input type="password" class="form-control" name="password">
 						<label for="floatingInput">Password</label>
 					</div>
 					<button class="btn btn-lg btn-success" type="submit">로그인</button>

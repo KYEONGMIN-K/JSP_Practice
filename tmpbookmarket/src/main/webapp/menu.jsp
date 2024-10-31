@@ -1,3 +1,17 @@
+
+<%
+	
+	session = request.getSession(false);
+	String sessionId = null;
+	if(session!=null){
+		dto.Member mb = (dto.Member)session.getAttribute("member");
+		if(mb != null){
+			sessionId = mb.getId();
+		}
+	}
+	
+%>
+
 <header class="d-flex pb-3 mb-4 border-bottom">
 	<div class="container">
 		<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -10,6 +24,15 @@
 			</a>
 			
 			<ul class="nav nav-pills">
+				    <% if(sessionId == null){ %>
+						<li class="nav-item"><a class="nav-link" href="member_login">Login </a></li>
+						<li class="nav-item"><a class="nav-link" href="member_add">Join</a></li>
+					<%}else{ %>					
+						<li style="padding-top: 7px;">[<%=sessionId%>] User</li>
+						<li class="nav-item"><a href="product_cartview" class="nav-link">book Cart</a></li>
+						<li class="nav-item"><a class="nav-link" href="member_logout">Logout </a></li>
+						<li class="nav-item"><a class="nav-link" href="member_update">edit</a></li>
+					<%}%>
 				<!-- R: 전체상품 가져오기 -->
 				<li class="nav-item"><a href="products" class="nav-link">bookList</a></li>
 				<!-- C: 상품 입력 -->
@@ -17,7 +40,7 @@
 				<!-- U: 상품 수정 -->
 				<li class="nav-item"><a href="productsedit" class="nav-link">book Edit</a></li>
 				<!-- D: 상품 삭제 -->
-				<li class="nav-item"><a href="product_cartview" class="nav-link">book Cart</a></li>
+				<li class ="nav-item"><a href = "BoardListAction?pageNum=1"class = "nav-link" />board</a></li>
 			</ul>
 		</div>
 	</div>

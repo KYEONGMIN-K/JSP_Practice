@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import logTime.timeReturn;
 @WebServlet("/product_update")
 public class product_update extends HttpServlet{
 
@@ -22,6 +23,7 @@ public class product_update extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println(timeReturn.getTime()+" #p_update.1 product_update 매핑됨");
 		//전처리
 		req.setCharacterEncoding("utf-8");
 		String save = req.getServletContext().getRealPath("resources\\images");
@@ -29,8 +31,11 @@ public class product_update extends HttpServlet{
 		int maxSize = 5*1024*1024;
 		String encType = "utf-8";
 		
-		MultipartRequest multi = new MultipartRequest(req, realFolder, maxSize, encType, new DefaultFileRenamePolicy());		
-		
+		MultipartRequest multi = new MultipartRequest(req, realFolder, maxSize, encType, new DefaultFileRenamePolicy());
+		if(multi == null) {
+			System.out.println(timeReturn.getTime()+" #p_update MultipartRequest 생성 실패");
+		}
+		System.out.println(timeReturn.getTime()+" #p_update.2 MultipartRequest 생성");
 		String bookId = multi.getParameter("bookId");
 		String name = multi.getParameter("name");
 		String unitPrice = multi.getParameter("unitPrice");
@@ -43,8 +48,9 @@ public class product_update extends HttpServlet{
 		String condition = multi.getParameter("condition");
 		String fileName = multi.getFilesystemName("BookImage");
 		
+		//유효성 검사
 		Integer Price=0;
-
+		
 		if(unitPrice.isEmpty())
 				Price =0;
 		else
@@ -57,6 +63,7 @@ public class product_update extends HttpServlet{
 		else
 			stock = Long.valueOf(unitsInStock);
 		
+		//데이터 묶기
 		Book newBook = new Book();
 		newBook.setBookId(bookId);
 		newBook.setName(name);
@@ -72,6 +79,7 @@ public class product_update extends HttpServlet{
 		//모델이동
 		BookRepository br = BookRepository.getRepository();
 		br.updateBook(newBook);
+		System.out.println(timeReturn.getTime()+" #p_update.3 updateBook return Succ");
 		//뷰이동
 		resp.sendRedirect("products");
 	}

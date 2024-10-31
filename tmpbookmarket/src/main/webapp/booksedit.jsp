@@ -6,7 +6,8 @@
 	//get은 return이 반드시 있다. return을 받을 변수를 준비해야한다.
 	//request에 set()으로 넣을때는 데이터 타입이 unknown으로 바뀌게 됨. 그래서 casting을 해줘야한다
 	//BookRepository dao = BookRepository.getRepository();
-	
+	System.out.println(logTime.timeReturn.getTime() +" #v_edit booksedit.jsp View 이동 완료");	
+
 	ArrayList<Book> listOfBooks = (ArrayList<Book>)request.getAttribute("arr");
 		
 %>
@@ -14,7 +15,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="/tmpbookmarket/resources/css/bootstrap.min.css">
 <meta charset="UTF-8">
 <title>도서목록</title>
 </head>
@@ -46,8 +48,12 @@
 						<br><%= book.getPublisher() %> : <%= book.getUnitPrice() %>원
 						<p><%=book.getDescription() %></p>
 						<p><%=book.getUnitPrice() %>원</p>
-						<p><a href="productsedit_s?id=<%=book.getBookId()%>" class="btn btn-secondary" role="button">수정 &raquo;</a></p>
-						<p><a href="productsdelete?id=<%=book.getBookId()%>" class="btn btn-secondary" role="button">삭제 &raquo;</a></p>
+						<a href="productsedit_select?edit=update&id=<%=book.getBookId()%>" class="btn btn-secondary" role="button">수정 &raquo;</a>
+						<a href="#" onclick="deleteConfirm('<%=book.getBookId()%>')" class="btn btn-secondary" role="button">삭제 &raquo;</a>
+						   <!--
+						    <p><a href="productsedit_select?edit=update&id=<%=book.getBookId()%>" class="btn btn-secondary" role="button">수정 &raquo;</a>
+						   <a href="productsedit_select?edit=delete&id=<%=book.getBookId()%>" class="btn btn-secondary" role="button">삭제 &raquo;</a></p>
+						    -->
 					</div>
 				</div>
 			<%
@@ -55,7 +61,9 @@
 			%>
 			<!-- for()문 영역 END -->
 		</div>
-		<%@ include file="footer.jsp" %>		
+		<%@ include file="footer.jsp" %>	
+			
 	</div>
+	<script type="text/javascript" src="/tmpbookmarket/resources/js/validation.js"></script>
 </body>
 </html>

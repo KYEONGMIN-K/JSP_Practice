@@ -72,3 +72,12 @@ function addToCart(){
 	}
 	
 }
+
+function deleteConfirm(id){
+	if(confirm("해당 도서를 삭제합니다!!")==true){
+		location.href="productsedit_select?edit=delete&id="+id;
+	}else{
+		return;
+	}
+}
+
