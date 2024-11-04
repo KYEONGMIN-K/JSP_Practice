@@ -26,6 +26,7 @@ public class product_create extends HttpServlet{
 		System.out.println(timeReturn.getTime()+" #p_create.1 product_add 매핑됨");
 		//전처리
 		String save = req.getServletContext().getRealPath("resources\\images");
+		System.out.println("");
 		String realFolder=save;
 		int maxSize=5*1024*1024;
 		String encType="utf-8";

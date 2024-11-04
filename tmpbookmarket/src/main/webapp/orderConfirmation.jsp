@@ -14,7 +14,7 @@
 <body>
 	<%
 		request.setCharacterEncoding("utf-8");
-	
+		session = request.getSession(false);
 		String cartId = session.getId();
 		
 		String shipping_cartId = "";
@@ -48,7 +48,7 @@
 	%>
 	
 <div class="container py-4">
-	<%@ include file="menu.jsp" %>
+	<jsp:include page="menu.jsp" />
 	<div class="p-5 mb-4 bg-body-tertiary rounded-3">
 		<div class="container-fluid py-5">
 			<h1 class="display-5 fw-bold">주문정보</h1>

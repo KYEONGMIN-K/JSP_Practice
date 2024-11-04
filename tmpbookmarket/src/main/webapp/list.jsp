@@ -4,10 +4,13 @@
 <%@ page import="dto.Board"%>
 <%@ page import="dto.Member"%>
 <%@ page session="false" %>
+<%@ page import="java.time.*"%>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%
 	
 	//List boardList = (List) request.getAttribute("boardlist");	
-	
+	int index =1;	//출력 개수 카운트
+	int limit = (int)request.getAttribute("limit");
 	String sessionId = null;
 	String sessionName = null;
 	int total_page = ((Integer) request.getAttribute("total_page")).intValue();
@@ -20,6 +23,7 @@
 		System.out.println("세션이 존재합니다.");
 		Member mb = (Member)session.getAttribute("member");
 		if(mb != null){
+			System.out.println("mb가 존재합니다. : "+mb.getId());
 			sessionId = mb.getId();
 			sessionName = mb.getName();
 		}
@@ -33,9 +37,10 @@
 <title>Board</title>
 <script type="text/javascript">
 	function checkForm() {	
-		if (${sessionId==null}) {	//${} EL은 변수의 연산결과를 출력할 수 있다.
+		
+		if (<%= sessionId==null %>) {	// EL은 변수의 연산결과를 출력할 수 있다.
 			alert("로그인 해주세요.");
-			return false;
+			document.submit();
 		}
 
 		location.href = "BoardWriteForm?id=<%=sessionId%>"
@@ -59,7 +64,7 @@
 					<span class="badge text-bg-success">전체 <%=total_record%>건	</span>
 				</div>		
 			<div style="padding-top: 20px">
-				<table class="table table-hover text-center">
+				<table class="table table-hover text-center" >
 					<tr>
 						<th>번호</th>
 						<th>제목</th>
@@ -69,13 +74,32 @@
 					</tr>
 					<%
 					
-						for (int j = 0; j < boardList.size() ; j++){
+						for (int j = 0; j < boardList.size() ; j++,index++){
+							
+							// 1페이지가 아니고 j:반복횟수가 처음일 때 
+							if(pageNum!=1 && j==0){				//2
+								j= j+(limit*(pageNum-1));		//j==5
+							}
+							//페이지 출력 limit개 제한
+							if(index>limit){
+								System.out.println("index 멈춰 : " + index);
+								index=1;
+								break;
+							}
+						//	System.out.println("j : "+j+" | pageNum : "+pageNum+" | index : "+index);
+						//	System.out.println("size : "+boardList.size());
 							Board notice = (Board)boardList.get(j);
+
 					%>
 					<tr>
 						<td><%=notice.getNum()%></td>
-						<td><a href="BoardViewAction?num=<%=notice.getNum()%>&pageNum=<%=pageNum%>"><%=notice.getSubject()%></a></td>
-						<td><%=notice.getRegist_day()%></td>
+						<td><a style="text-decoration-line:none" href="BoardViewAction?num=<%=notice.getNum()%>&pageNum=<%=pageNum%>"><%=notice.getSubject()%></a></td>
+						<td><%
+							//LocalDateTime tm = notice.getRegist_day().toLocalDateTime();
+							//String tm2 = tm.format(DateTimeFormatter.ofPattern("MM-dd"));
+							String tt = DateTimeFormatter.ofPattern("MM-dd").format(notice.getRegist_day().toLocalDateTime());
+							out.println(tt);
+						%></td>
 						<td><%=notice.getHit()%></td>
 						<td><%=notice.getName()%></td>
 					</tr>
@@ -85,12 +109,12 @@
 				</table>
 			</div>
 			<div align="center">
-				<%for(int i=1; i<total_page; i++){%>				
-						<a href="BoardListAction?pageNum=${i}"/>
+				<%for(int i=1; i<=total_page; i++){%>				
+						<a style="text-decoration-line:none" href="BoardListAction?pageNum=<%=i%>"/>
 						<%if(pageNum==i){%>		<!-- pageNum : 현재 페이지 -->
-							<font color='4C5317'><b> [${i}]</b></font>
+							<font color='4C5317'><b> [<%=i%>]</b></font>
 						<%}else{%>
-							<font color='4C5317'> [${i}]</font>
+							<font color='4C5317'> [<%=i%>]</font>
 						<%}%>
 				<%}%>				
 			</div>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="dto.Member" %>
+<%@ page session="false" %>
 <html>
 <head>
 <link rel="stylesheet" href="/tmpbookmarket/resources/css/bootstrap.min.css" />
@@ -38,6 +39,7 @@
 				else if (msg.equals("1"))
 					out.println(" <h2 class='alert alert-danger'>회원가입을 축하드립니다.</h2>");
 				else if (msg.equals("2")) {
+					HttpSession session = request.getSession();
 					session = request.getSession(false);
 					Member mb = (Member)session.getAttribute("member");
 					System.out.println(mb.getName());

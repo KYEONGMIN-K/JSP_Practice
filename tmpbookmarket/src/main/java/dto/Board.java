@@ -1,6 +1,7 @@
 package dto;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Board {
 	private int num;
@@ -9,6 +10,7 @@ public class Board {
 	private String subject;
 	private String content;
 	private Timestamp regist_day;
+//	private LocalDateTime regist_day;
 	private int hit;
 	private String ip;
 	

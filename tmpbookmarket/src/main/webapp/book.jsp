@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="dao.BookRepository" %>
 <%@ page import="dto.Book" %>
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html>
 <head>

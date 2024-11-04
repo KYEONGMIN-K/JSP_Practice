@@ -4,6 +4,7 @@
 <%@ page import="java.net.URLDecoder" %>
 <%@ page import="dto.Book" %>
 <%@ page import="dao.BookRepository" %>
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,8 +14,9 @@
 </head>
 <body>
 	<%
+		HttpSession session = request.getSession(false);
 		request.setCharacterEncoding("utf-8");
-	
+		session = request.getSession(false);
 		String cartId = session.getId();
 		
 		String shipping_cartId = "";
@@ -40,7 +42,7 @@
 		}
 	%>
 <div class="container py-4">
-	<%@ include file="menu.jsp" %>
+	<jsp:include page="menu.jsp" />
 	<div class="p-5 mb-4 bg-body-tertiary rounded-3">
 		<div class="container-fluid py-5">
 			<h1 class="display-5 fw-bold">주문 완료</h1>
@@ -55,7 +57,7 @@
 	<div>
 		<p><a href="products" class="btn btn-secondary">&laquo; 도서목록</a>
 	</div>
-	<%@ include file="footer.jsp" %>
+	<jsp:include page="footer.jsp" />
 </div>	
 
 </body>

@@ -1,8 +1,15 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page session="false" %>
+<%@ page import="dto.*" %>
 <%
-	String name = (String) request.getAttribute("name");
+	HttpSession session = request.getSession(false);
+	if(session ==null){
+		System.out.println("writeForm : 세션 없음");
+	}
 	
+	Member mb = (Member)session.getAttribute("member");
+	String name = mb.getName();
 %>
 <html>
 <head>
@@ -38,7 +45,7 @@
 
 	<div class="row align-items-md-stretch   text-center">	 	
 
-		<form name="newWrite" action="BoardWriteAction"  method="post" onsubmit="return checkForm()">
+		<form name="newWrite" action="BoardWriteForm"  method="post" onsubmit="return checkForm()">
 			<input name="id" type="hidden" class="form-control"
 				value="${sessionId}">
 			<div class="mb-3 row">

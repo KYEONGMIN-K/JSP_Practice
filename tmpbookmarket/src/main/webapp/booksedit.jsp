@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="dto.Book" %>    
+<%@ page session="false" %>
 <%
 	//get은 return이 반드시 있다. return을 받을 변수를 준비해야한다.
 	//request에 set()으로 넣을때는 데이터 타입이 unknown으로 바뀌게 됨. 그래서 casting을 해줘야한다

@@ -20,10 +20,14 @@ public class Read_Controller extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//한 페이지에 출력할 글의 개수를 제한
 		int Limit = 5;
-		
+		int pageNum = 1;
 		//전처리
 		req.setCharacterEncoding("utf-8");
-		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
+		String page = req.getParameter("pageNum");
+		if(page != null) {
+			pageNum = Integer.parseInt(page);
+		}
+		
 		//모델
 		BoardRepository br = BoardRepository.getInstance();
 		ArrayList<Board> arr = br.getAllBoard();
@@ -40,6 +44,7 @@ public class Read_Controller extends HttpServlet{
 		req.setAttribute("arr", arr); //전체글을 담은 객체
 		req.setAttribute("pageNum", pageNum); //전체 페이지 번호
 		req.setAttribute("total_record", total_record); //전체글의 개수
+		req.setAttribute("limit", Limit);
 		RequestDispatcher ds = req.getRequestDispatcher("list.jsp");
 		ds.forward(req, resp);
 	

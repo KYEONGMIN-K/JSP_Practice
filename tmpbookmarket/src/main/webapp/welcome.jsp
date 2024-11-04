@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html charset=utf-8"  pageEncoding="UTF-8" %>
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,7 @@
 <body>
 
 	<div class="container py-4">
-		<%@ include file="menu.jsp" %>
+		<jsp:include page="menu.jsp" />
 		<%! String greeting ="Welcome to Book Shopping Mall";
 			String tagline = "Welcome to Web Market";
 		%>
@@ -26,7 +27,7 @@
 				</div>
 			</div>
 		</div>
-		<%@ include file="footer.jsp" %>
+		<jsp:include page="footer.jsp" />
 	</div>
 </body>
 </html>

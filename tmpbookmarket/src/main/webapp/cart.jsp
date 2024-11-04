@@ -3,11 +3,13 @@
 <%@ page import="dao.BookRepository" %>
 <%@ page import="dto.Book" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
 <%
+	HttpSession session = request.getSession(false);
 	String cartId = session.getId();
 %>
 <meta charset="UTF-8">
@@ -15,7 +17,7 @@
 </head>
 <body>
 <div class="container py-4">
-	<%@ include file="menu.jsp" %>
+	<jsp:include page="menu.jsp"/>
 	<div class="p-5 mb-4 bg-body-tertiary rounded-3">
 		<div class="container-fluid py-5">
 			<h1 class="display-5 fw-bold">장바구니</h1>
@@ -81,7 +83,7 @@
 		</div>
 	</div>
 	
-	<%@ include file="footer.jsp" %>
+	<jsp:include page="footer.jsp"/>
 </div>
 </body>
 </html>

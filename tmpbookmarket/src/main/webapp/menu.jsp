@@ -1,7 +1,7 @@
-
+<%@ page session="false" %>
 <%
 	
-	session = request.getSession(false);
+	HttpSession session = request.getSession(false);
 	String sessionId = null;
 	if(session!=null){
 		dto.Member mb = (dto.Member)session.getAttribute("member");

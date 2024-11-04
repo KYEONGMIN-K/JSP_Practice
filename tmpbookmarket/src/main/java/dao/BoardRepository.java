@@ -53,6 +53,7 @@ public class BoardRepository {
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				count = rs.getInt(1);	//첫번째 컬럼이라는 뜻
+				System.out.println("count : "+count);
 			}
 		}catch(Exception e) {}
 		
@@ -61,7 +62,28 @@ public class BoardRepository {
 	
 	
 	//create
-	public void create() {
+	public void create(Board bd) {
+		try {
+			//DB연결
+			Connection conn = dbconn();
+			//쿼리 전송
+			PreparedStatement pstmt = null;
+			String sql ="insert into board(id,name,subject,content,regist_day,hit,ip) values(?,?,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bd.getId());
+			pstmt.setString(2, bd.getName());
+			pstmt.setString(3, bd.getSubject());
+			pstmt.setString(4, bd.getContent());
+			pstmt.setTimestamp(5, bd.getRegist_day());
+			pstmt.setInt(6,bd.getHit());
+			pstmt.setString(7, bd.getIp());
+			pstmt.executeUpdate();
+			//ResultSet()
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	//read All
